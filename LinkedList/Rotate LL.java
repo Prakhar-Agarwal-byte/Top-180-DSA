@@ -1,36 +1,19 @@
-class Solution {
-  public ListNode rotateRight(ListNode head, int k) {
-    ListNode cur = head;
-    int len = 0;
-    while (cur != null) {
-      len++;
-      cur = cur.next;
+public ListNode rotateRight(ListNode head, int k) {
+    if(head == null || k == 0) {
+        return head;
     }
-    if (len == 0) return head;
-    k = k % len;
-    int n = len - k;
-    cur = head;
-    while (n-- > 1) {
-      cur = cur.next;
+    ListNode p = head;
+    int len = 1;
+    while(p.next != null) {
+        p = p.next;
+        len++;
     }
-    ListNode head2 = cur.next;
-    cur.next = null;
-    head2 = reverse(head2);
-    ListNode head1 = reverse(head);
-    cur = head1;
-    while (cur.next != null) {
-      cur = cur.next;
+    p.next = head;
+    k %= len;
+    for(int i = 0; i < len - k; i++) {
+        p = p.next;
     }
-    cur.next = head2;
-    return reverse(head1);
-  }
-
-  private ListNode reverse(ListNode head) {
-    if (head == null || head.next == null)
-      return head;
-    ListNode p = reverse(head.next);
-    head.next.next = head;
-    head.next = null;
-    return p;
-  }
+    head = p.next;
+    p.next = null;
+    return head;
 }
